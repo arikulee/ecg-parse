@@ -309,7 +309,7 @@ def parse(file_path, output):
         if n is not 11:
             plt.setp(ax.get_xticklabels(), visible=False)
         ax.yaxis.tick_right()
-        ax.set_title(derivation_names[n][0].decode('utf-8'), loc='left')
+        ax.set_title(derivation_names[n][0].decode('utf-8').strip('\r\n\0'), loc='left')
 
     # TODO image saving
     #plt.show()

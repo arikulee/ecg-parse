@@ -1,6 +1,8 @@
 import os
 import os.path
 import struct
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 

@@ -1,0 +1,14 @@
+version: '2'
+services:
+  parser:
+    image: parser:latest
+    container_name: parser_container
+    volumes:
+      - ./:/usr/src/app
+    env_file: .env
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      bash -c
+      "python -u load.py exams/ $OUTPUT"

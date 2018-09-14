@@ -306,12 +306,31 @@ def parse(file_path, output):
     # create fugure of samples of derivation 1 ~ 12
     fig1 = plt.figure()
     for n in range(12):
-        ax = fig1.add_subplot(12, 1, n + 1)
+        ax = fig1.add_subplot(13, 1, n + 1)
         ax.plot(derivation[n])
         if n is not 11:
             plt.setp(ax.get_xticklabels(), visible=False)
         ax.yaxis.tick_right()
         ax.set_ylabel(derivation_names[n][0].decode('utf-8').strip('\r\n\0'))
+    fig1.text(0, -0.2, "P-wave: %s\n"
+                    "PR-segment: %s\n"
+                    "QRS-segment: %s\n"
+                    "QT-segment: %s\n"
+                    "SAP-angle: %s\n"
+                    "SAQRS-angle: %s\n"
+                    "Age(years): %s\n"
+                    "Weight(kg): %s\n"
+                    "Gender: %s\n"
+              % (data1_17[0].decode('utf-8').strip('\r\n\0'),
+            data1_18[0].decode('utf-8').strip('\r\n\0'),
+            data1_19[0].decode('utf-8').strip('\r\n\0'),
+            data1_20[0].decode('utf-8').strip('\r\n\0'),
+            data1_21[0].decode('utf-8').strip('\r\n\0'),
+            data1_22[0].decode('utf-8').strip('\r\n\0'),
+            data1_6[0].decode('utf-8').strip('\r\n\0'),
+            data1_7[0].decode('utf-8').strip('\r\n\0'),
+            data1_8[0].decode('utf-8').strip('\r\n\0')
+            ))
 
     # TODO image saving
     #plt.show()

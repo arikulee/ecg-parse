@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 
 
 IMAGE_TYPE = ".png"
+TEXT_TYPE = ".txt"
 
 
 def parse(file_path, output):
@@ -331,10 +332,24 @@ def parse(file_path, output):
             data1_7[0].decode('utf-8').strip('\r\n\0'),
             data1_8[0].decode('utf-8').strip('\r\n\0')
             ))
-
-    # TODO image saving
     #plt.show()
     plt.savefig(output_image_name, bbox_inches='tight')
+
+    # output simple text format
+    for n in range(12):
+        output_text_name = os.path.join(output_dir, "%s%d%s" % (file_name, n, TEXT_TYPE))
+        with open(output_text_name, "w") as f:
+            f.write("# Simple Text Format")
+            f.write("\n")
+            f.write("# Sampling Rate (Hz):= 1200.00")
+            f.write("\n")
+            f.write("# Resolution:= 12")
+            f.write("\n")
+            f.write("# Labels:= ECG")
+            f.write("\n")
+            for point in derivation[n]:
+                f.write("%d" %   point)
+                f.write("\n")
 
     # State of the electrodes in each sample
     electrodes = []

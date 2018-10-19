@@ -4,6 +4,7 @@ import struct
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 IMAGE_TYPE = ".png"
@@ -305,33 +306,41 @@ def parse(file_path, output):
         derivation.append(derivation_n)
 
     # create fugure of samples of derivation 1 ~ 12
-    fig1 = plt.figure()
+    fig1 = plt.figure(figsize=((20, 30)))
+    # fig1.text(0, -0.2, "P-wave: %s\n"
+    #                 "PR-segment: %s\n"
+    #                 "QRS-segment: %s\n"
+    #                 "QT-segment: %s\n"
+    #                 "SAP-angle: %s\n"
+    #                 "SAQRS-angle: %s\n"
+    #                 "Age(years): %s\n"
+    #                 "Weight(kg): %s\n"
+    #                 "Gender: %s\n"
+    #           % (data1_17[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_18[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_19[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_20[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_21[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_22[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_6[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_7[0].decode('utf-8').strip('\r\n\0'),
+    #         data1_8[0].decode('utf-8').strip('\r\n\0')
+    #         ))
     for n in range(12):
         ax = fig1.add_subplot(13, 1, n + 1)
-        ax.plot(derivation[n])
+        t = np.arange(len(derivation[n])) * 1 / 1200
+        ax.plot(t, derivation[n], 'k')
+        ax.set_ylabel("Amplitude", fontsize=18, labelpad=30)
+        ax.set_xlabel("Time (s)", fontsize=18)
+        ax.grid()
+
+        #ax = fig1.add_subplot(13, 1, n + 1)
+        #ax.plot(derivation[n])
         if n is not 11:
             plt.setp(ax.get_xticklabels(), visible=False)
-        ax.yaxis.tick_right()
+        #ax.yaxis.tick_right()
         ax.set_ylabel(derivation_names[n][0].decode('utf-8').strip('\r\n\0'))
-    fig1.text(0, -0.2, "P-wave: %s\n"
-                    "PR-segment: %s\n"
-                    "QRS-segment: %s\n"
-                    "QT-segment: %s\n"
-                    "SAP-angle: %s\n"
-                    "SAQRS-angle: %s\n"
-                    "Age(years): %s\n"
-                    "Weight(kg): %s\n"
-                    "Gender: %s\n"
-              % (data1_17[0].decode('utf-8').strip('\r\n\0'),
-            data1_18[0].decode('utf-8').strip('\r\n\0'),
-            data1_19[0].decode('utf-8').strip('\r\n\0'),
-            data1_20[0].decode('utf-8').strip('\r\n\0'),
-            data1_21[0].decode('utf-8').strip('\r\n\0'),
-            data1_22[0].decode('utf-8').strip('\r\n\0'),
-            data1_6[0].decode('utf-8').strip('\r\n\0'),
-            data1_7[0].decode('utf-8').strip('\r\n\0'),
-            data1_8[0].decode('utf-8').strip('\r\n\0')
-            ))
+    fig1.tight_layout()
     #plt.show()
     plt.savefig(output_image_name, bbox_inches='tight')
 

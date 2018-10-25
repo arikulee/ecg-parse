@@ -11,4 +11,4 @@ services:
       dockerfile: Dockerfile
     command: >
       bash -c
-      "python -u main.py exams/ $OUTPUT $SUMMARY"
+      "python -u main.py $INPUT $OUTPUT $SUMMARY"

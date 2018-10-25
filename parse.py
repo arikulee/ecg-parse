@@ -356,9 +356,7 @@ def parse(file_path, output):
             f.write("\n")
             f.write("# Resolution:= 12")
             f.write("\n")
-            f.write("# Labels:= ECG")
-            f.write("\n")
-            f.write("# Type:= %s" % derivation_names[n][0].decode('utf-8').strip('\r\n\0'))
+            f.write("# Labels:= ECG\t%s" % derivation_names[n][0].decode('utf-8').strip('\r\n\0'))
             f.write("\n")
             for point in derivation[n]:
                 f.write("%d" %   point)

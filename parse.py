@@ -345,8 +345,10 @@ def parse(file_path, output):
     plt.savefig(output_image_name, bbox_inches='tight')
 
     # output simple text format
+    simple_txt_files = []
     for n in range(12):
-        output_text_name = os.path.join(output_dir, "%s%d%s" % (file_name, n, TEXT_TYPE))
+        output_text_name = os.path.join(output_dir, "%s_%02d%s" % (file_name, n, TEXT_TYPE))
+        simple_txt_files.append(output_text_name)
         with open(output_text_name, "w") as f:
             f.write("# Simple Text Format")
             f.write("\n")
@@ -355,6 +357,8 @@ def parse(file_path, output):
             f.write("# Resolution:= 12")
             f.write("\n")
             f.write("# Labels:= ECG")
+            f.write("\n")
+            f.write("# Type:= %s" % derivation_names[n][0].decode('utf-8').strip('\r\n\0'))
             f.write("\n")
             for point in derivation[n]:
                 f.write("%d" %   point)
@@ -376,3 +380,5 @@ def parse(file_path, output):
         status.append(data1_102[0] & 0b0000000100000000)
         status.append(data1_102[0] & 0b0000001000000000)
         electrodes.append(status)
+
+    return output_image_name, simple_txt_files

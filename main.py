@@ -3,6 +3,9 @@ import argparse
 import parse
 import json
 
+# 3rd party
+from logzero import logger
+
 EXT = ".TEP"
 
 
@@ -30,24 +33,33 @@ def get_args():
 
 def main():
     args = get_args()
-    print("input dir: %s" % args.i)
-    print("output dir: %s" % args.o)
+    logger.info("input dir: %s" % args.i)
+    logger.info("output dir: %s" % args.o)
 
     # create summary file
     with open(args.s, 'w') as f:
         summary = []
-        for file in find_all_files(args.i):
+        all_files = find_all_files(args.i)
+
+        for i, file in enumerate(all_files):
             root, ext = os.path.splitext(file)
             if ext == EXT:
                 tep_dict = {}
-                print("processing: %s" % file)
-                image_file_name, txt_files_name = parse.parse(file, args.o)
+                logger.info("NO.%d processing: %s" % (i, file))
+
+                try:
+                    image_file_name, txt_files_name = parse.parse(file, args.o)
+                except Exception as e:
+                    logger.error(e)
+                    continue
 
                 # tep dict
                 tep_dict["image_file"] = image_file_name
                 tep_dict["txt_files"] = txt_files_name
                 tep_dict["original_file"] = file
                 summary.append(tep_dict)
+            else:
+                logger.info("no TEP file: %s" % file)
         summary_dict = {"summary": summary}
         json.dump(summary_dict, f)
 

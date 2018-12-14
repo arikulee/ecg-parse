@@ -5,19 +5,23 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+from logzero import logger
 
 
 IMAGE_TYPE = ".png"
 TEXT_TYPE = ".txt"
 
 
-def parse(file_path, output):
+def parse(file_path, output, show=False):
     # output image name
     root, ext = os.path.splitext(file_path)
-    print(root)
-    print(ext)
+    if show:
+        logger.info(root)
+    if show:
+        logger.info(ext)
     base_dir, file_name = os.path.split(root)
-    print(file_name)
+    if show:
+        logger.info(file_name)
     _, base_name = os.path.split(base_dir)
 
     output_dir = os.path.join(output, base_name)
@@ -31,99 +35,124 @@ def parse(file_path, output):
 
     # file signature
     data1_1 = struct.unpack('4s', fid.read(4))
-    print("file signature: %s" % data1_1[0])
+    if show:
+        logger.info("file signature: %s" % data1_1[0])
 
     # reserved
     data1_2 = struct.unpack('6s', fid.read(6))
-    print("reserved: %s" % data1_2)
+
+    if show:
+        logger.info("reserved: %s" % data1_2)
 
     # exam date
     data1_3 = struct.unpack('7s', fid.read(7))
-    print("exam date: %s" % data1_3)
+    if show:
+        logger.info("exam date: %s" % data1_3)
 
     # patient name
     data1_4 = struct.unpack('41s', fid.read(41))
-    print("patient name: %s" % data1_4)
+    if show:
+        logger.info("patient name: %s" % data1_4)
 
     # name of examining physician
     data1_5 = struct.unpack('41s', fid.read(41))
-    print("name of examining physician: %s" % data1_5)
+    if show:
+        logger.info("name of examining physician: %s" % data1_5)
 
     # age(years)
     data1_6 = struct.unpack('4s', fid.read(4))
-    print("age(years): %s" % data1_6)
+    if show:
+        logger.info("age(years): %s" % data1_6)
 
     # weight(kg)
     data1_7 = struct.unpack('4s', fid.read(4))
-    print("weight(kg): %s" % data1_7)
+    if show:
+        logger.info("weight(kg): %s" % data1_7)
 
     # Gender
     data1_8 = struct.unpack('10s', fid.read(10))
-    print("gender: %s" % data1_8)
+    if show:
+        logger.info("gender: %s" % data1_8)
 
     # Height
     data1_9 = struct.unpack('5s', fid.read(5))
-    print("height: %s" % data1_9)
+    if show:
+        logger.info("height: %s" % data1_9)
 
     # Exam time
     data1_10 = struct.unpack('6s', fid.read(6))
-    print("exam time: %s" % data1_10)
+    if show:
+        logger.info("exam time: %s" % data1_10)
 
     # Pacemaker
     data1_11 = struct.unpack('4s', fid.read(4))
-    print("pacemaker: %s" % data1_11)
+    if show:
+        logger.info("pacemaker: %s" % data1_11)
 
     # Average heart rate
     data1_12 = struct.unpack('4s', fid.read(4))
-    print("average hear rate: %s" % data1_12)
+    if show:
+        logger.info("average hear rate: %s" % data1_12)
 
     # Systolic pressure
     data1_13 = struct.unpack('4s', fid.read(4))
-    print("systolic pressure: %s" % data1_13)
+    if show:
+        logger.info("systolic pressure: %s" % data1_13)
 
     # diastolic pressure
     data1_14 = struct.unpack('4s', fid.read(4))
-    print("diastolic pressure: %s" % data1_14)
+    if show:
+        logger.info("diastolic pressure: %s" % data1_14)
 
     # name of examining pysisian
     data1_15 = struct.unpack('36s', fid.read(36))
-    print("name of examining pysisian: %s" % data1_15)
+    if show:
+        logger.info("name of examining pysisian: %s" % data1_15)
 
     # Rhythm
     data1_16 = struct.unpack('21s', fid.read(21))
-    print("rhythm: %s" % data1_16)
+    if show:
+        logger.info("rhythm: %s" % data1_16)
 
     # P-wave in ms
     data1_17 = struct.unpack('5s', fid.read(5))
-    print("P-wave(ms): %s" % data1_17)
+    if show:
+        logger.info("P-wave(ms): %s" % data1_17)
 
     # PR segment in ms
     data1_18 = struct.unpack('5s', fid.read(5))
-    print("PR segment(ms): %s" % data1_18)
+    if show:
+        logger.info("PR segment(ms): %s" % data1_18)
 
     # QRS segment in ms
     data1_19 = struct.unpack('5s', fid.read(5))
-    print("QRS segment(ms): %s" % data1_19)
+    if show:
+        logger.info("QRS segment(ms): %s" % data1_19)
 
     # QT segment in ms
     data1_20 = struct.unpack('5s', fid.read(5))
-    print("QT segment(ms): %s" % data1_20)
+    if show:
+        logger.info("QT segment(ms): %s" % data1_20)
 
     # SAP angle in degrees
     data1_21 = struct.unpack('5s', fid.read(5))
-    print("SAP angle(degrees): %s" % data1_21)
+    if show:
+        logger.info("SAP angle(degrees): %s" % data1_21)
 
     # SAQRS angle in degrees
     data1_22 = struct.unpack('5s', fid.read(5))
-    print("SAQRS angle(degrees): %s" % data1_22)
+    if show:
+        logger.info("SAQRS angle(degrees): %s" % data1_22)
 
     # researved 474
     data1_23 = struct.unpack('474s', fid.read(474))
-    print("reserved: %s" % data1_23)
+    if show:
+        logger.info("reserved: %s" % data1_23)
 
     # sequential register number
     data1_24 = struct.unpack('<I', fid.read(4))
-    print("sequential register number: %s" % data1_24)
+    if show:
+        logger.info("sequential register number: %s" % data1_24)
 
     # equipment firmware version
     for i in range(2):
@@ -132,31 +161,38 @@ def parse(file_path, output):
 
     # sensitivity
     data1_26 = struct.unpack('4s', fid.read(4))
-    print("sensitivity: %s" % data1_26)
+    if show:
+        logger.info("sensitivity: %s" % data1_26)
 
     # Heading title
     data1_27 = struct.unpack('26s', fid.read(26))
-    print("heading title: %s" % data1_27)
+    if show:
+        logger.info("heading title: %s" % data1_27)
 
     # Elapsed time from the beginning of the continuous recording block
     data1_28 = struct.unpack('12s', fid.read(12))
-    print("Elapsed time from the beginning of the continuous recording block: %s" % data1_28)
+    if show:
+        logger.info("Elapsed time from the beginning of the continuous recording block: %s" % data1_28)
 
     # Elapsed time from the beginning of the exam
     data1_29 = struct.unpack('12s', fid.read(12))
-    print("Elapsed time from the beginning of the exam: %s" % data1_29)
+    if show:
+        logger.info("Elapsed time from the beginning of the exam: %s" % data1_29)
 
     # network filter binary
     data1_30 = struct.unpack('c', fid.read(1))
-    print("network filter binary: %s" % data1_30)
+    if show:
+        logger.info("network filter binary: %s" % data1_30)
 
     # muscle tremor filter binary
     data1_31 = struct.unpack('c', fid.read(1))
-    print("muscle tremor filter binary: %s" % data1_31)
+    if show:
+        logger.info("muscle tremor filter binary: %s" % data1_31)
 
     # baseline or hich pass filter binary
     data1_32 = struct.unpack('c', fid.read(1))
-    print("baseline or high pass fliter binary: %s" % data1_32)
+    if show:
+        logger.info("baseline or high pass fliter binary: %s" % data1_32)
 
     # name of derivation 1 ~ 12
     derivation_names = []
@@ -166,133 +202,165 @@ def parse(file_path, output):
 
     # age in months
     data1_45 = struct.unpack('4s', fid.read(4))
-    print("age(months): %s" % data1_45)
+    if show:
+        logger.info("age(months): %s" % data1_45)
 
     # weight in grams
     data1_46 = struct.unpack('4s', fid.read(4))
-    print("weight(grams): %s" % data1_46)
+    if show:
+        logger.info("weight(grams): %s" % data1_46)
 
     # reserved
     data1_47 = struct.unpack('24s', fid.read(24))
-    print("reserved: %s" % data1_47)
+    if show:
+        logger.info("reserved: %s" % data1_47)
 
     # turn off lead 1 ~ 12 in single window display
     for i in range(12):
         data1_48_59 = struct.unpack('b', fid.read(1))
-        print("turn off lead %d: %s" % (i + 1, data1_48_59))
+        if show:
+            logger.info("turn off lead %d: %s" % (i + 1, data1_48_59))
 
     # Pace maker type
     data1_60 = struct.unpack('31s', fid.read(31))
-    print("pace maker type: %s" % data1_60)
+    if show:
+        logger.info("pace maker type: %s" % data1_60)
 
     # date of implantation of the pacemaker
     data1_61 = struct.unpack('7s', fid.read(7))
-    print("date of implantation of the pacemaker: %s" % data1_61)
+    if show:
+        logger.info("date of implantation of the pacemaker: %s" % data1_61)
 
     # complementary patient identification field 1 ~ 3
     for i in range(3):
         data1_62_64 = struct.unpack('17s', fid.read(17))
-        print("complementary patient identification %d: %s" % (i + 1, data1_62_64))
+        if show:
+            logger.info("complementary patient identification %d: %s" % (i + 1, data1_62_64))
 
     # reserved
     data1_65 = struct.unpack('7s', fid.read(7))
-    print("reserved: %s" % data1_65)
+    if show:
+        logger.info("reserved: %s" % data1_65)
 
     # unique identifier of the exam
     data1_66 = struct.unpack('21s', fid.read(21))
-    print("unique identifier of the exam: %s" % data1_66)
+    if show:
+        logger.info("unique identifier of the exam: %s" % data1_66)
 
     # rg number
     data1_67 = struct.unpack('21s', fid.read(21))
-    print("rg number: %s" % data1_67)
+    if show:
+        logger.info("rg number: %s" % data1_67)
 
     # cpf number
     data1_68 = struct.unpack('21s', fid.read(21))
-    print("cpf number: %s" % data1_68)
+    if show:
+        logger.info("cpf number: %s" % data1_68)
 
     # patient's last name
     data1_69 = struct.unpack('26s', fid.read(26))
-    print("patient's last name: %s" % data1_69)
+    if show:
+        logger.info("patient's last name: %s" % data1_69)
 
     # date of birth
     data1_70 = struct.unpack('11s', fid.read(11))
-    print("date of birth: %s" % data1_70)
+    if show:
+        logger.info("date of birth: %s" % data1_70)
 
     # civil status
     data1_71 = struct.unpack('2s', fid.read(2))
-    print("civil status: %s" % data1_71)
+    if show:
+        logger.info("civil status: %s" % data1_71)
 
     # occupation
     data1_72 = struct.unpack('21s', fid.read(21))
-    print("occupation: %s" % data1_72)
+    if show:
+        logger.info("occupation: %s" % data1_72)
 
     # address
     data1_73 = struct.unpack('41s', fid.read(41))
-    print("address: %s" % data1_73)
+    if show:
+        logger.info("address: %s" % data1_73)
 
     # complement
     data1_74 = struct.unpack('21s', fid.read(21))
-    print("complement: %s" % data1_74)
+    if show:
+        logger.info("complement: %s" % data1_74)
 
     # neighborhood
     data1_75 = struct.unpack('31s', fid.read(31))
-    print("neighborhood: %s" % data1_75)
+    if show:
+        logger.info("neighborhood: %s" % data1_75)
 
     # city
     data1_76 = struct.unpack('31s', fid.read(31))
-    print("city: %s" % data1_76)
+    if show:
+        logger.info("city: %s" % data1_76)
 
     # federation unit
     data1_77 = struct.unpack('3s', fid.read(3))
-    print("federation unit: %s" % data1_77)
+    if show:
+        logger.info("federation unit: %s" % data1_77)
 
     # cep
     data1_78 = struct.unpack('10s', fid.read(10))
-    print("cep: %s" % data1_78)
+    if show:
+        logger.info("cep: %s" % data1_78)
 
     # home telephone
     data1_79 = struct.unpack('15s', fid.read(15))
-    print("home telephone: %s" % data1_79)
+    if show:
+        logger.info("home telephone: %s" % data1_79)
 
     # business phone
     data1_80 = struct.unpack('15s', fid.read(15))
-    print("business phone: %s" % data1_80)
+    if show:
+        logger.info("business phone: %s" % data1_80)
 
     # email
     data1_81 = struct.unpack('41s', fid.read(41))
-    print("email: %s" % data1_81)
+    if show:
+        logger.info("email: %s" % data1_81)
 
     # data added
     data1_82 = struct.unpack('11s', fid.read(11))
-    print("data added: %s" % data1_82)
+    if show:
+        logger.info("data added: %s" % data1_82)
 
     # exam number
     data1_83 = struct.unpack('11s', fid.read(11))
-    print("exam number: %s" % data1_83)
+    if show:
+        logger.info("exam number: %s" % data1_83)
 
     # clinical data
     data1_84 = struct.unpack('280s', fid.read(280))
-    print("clinical data: %s" % data1_84)
+    if show:
+        logger.info("clinical data: %s" % data1_84)
 
     # drugs in use
     data1_85 = struct.unpack('189s', fid.read(189))
-    print("drugs in use: %s" % data1_85)
+    if show:
+        logger.info("drugs in use: %s" % data1_85)
 
     # responsible CRM
     data1_86 = struct.unpack('21s', fid.read(21))
-    print("responsible CRM: %s" % data1_86)
+    if show:
+        logger.info("responsible CRM: %s" % data1_86)
 
     # reserved
     data1_87 = struct.unpack('b', fid.read(1))
-    print("reserved: %s" % data1_87)
+    if show:
+        logger.info("reserved: %s" % data1_87)
 
     # date and time of signature of the award
     data1_88 = struct.unpack('6s', fid.read(6))
-    print("date and time of signature of the award: %s" % data1_88)
+    if show:
+        logger.info("date and time of signature of the award: %s" % data1_88)
 
     # equipment serial number
     data1_89 = struct.unpack('10s', fid.read(10))
-    print("equipment serial number: %s" % data1_89)
+    if show:
+        logger.info("equipment serial number: %s" % data1_89)
 
     # samples of derivation 1 ~ 12
     # 26880 bytes being 13440 samples of 16 bits;
@@ -343,6 +411,7 @@ def parse(file_path, output):
     fig1.tight_layout()
     #plt.show()
     plt.savefig(output_image_name, bbox_inches='tight')
+    plt.close()
 
     # output simple text format
     simple_txt_files = []

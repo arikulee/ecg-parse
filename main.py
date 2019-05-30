@@ -12,8 +12,13 @@ EXT = ".TEP"
 def find_all_files(directory):
     for root, dirs, files in os.walk(directory):
         yield root
-        for file in files:
-            yield os.path.join(root, file)
+        if len(files) > 2:
+            for file in files:
+                if file.endswith("2.TEP"):
+                    yield os.path.join(root, file)
+        else:
+            for file in files:
+                yield os.path.join(root, file)
 
 
 def get_args():
@@ -66,8 +71,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
 
 

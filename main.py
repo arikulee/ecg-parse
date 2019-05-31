@@ -2,6 +2,7 @@ import os
 import argparse
 import parse
 import json
+import glob
 
 # 3rd party
 from logzero import logger
@@ -12,13 +13,15 @@ EXT = ".TEP"
 def find_all_files(directory):
     for root, dirs, files in os.walk(directory):
         yield root
-        if len(files) > 2:
+        tep_counter = len(glob.glob1(root,"*.TEP"))
+        if tep_counter > 1:
             for file in files:
                 if file.endswith("2.TEP"):
                     yield os.path.join(root, file)
         else:
             for file in files:
-                yield os.path.join(root, file)
+                if file.endswith(".TEP"):
+                    yield os.path.join(root, file)
 
 
 def get_args():

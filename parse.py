@@ -2,6 +2,7 @@ import os
 import os.path
 import struct
 import matplotlib
+import csv
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,6 +12,16 @@ from logzero import logger
 IMAGE_TYPE = ".png"
 TEXT_TYPE = ".txt"
 
+g0 = 0
+g1 = 0
+g2 = 0
+g3 = 0
+g4 = 0
+g5 = 0
+g6 = 0
+g7 = 0
+g8 = 0
+g9 = 0
 
 def parse(file_path, output, show=False):
     # output image name
@@ -31,7 +42,7 @@ def parse(file_path, output, show=False):
 
     output_image_name = os.path.join(output_dir, "%s%s" % (file_name, IMAGE_TYPE))
 
-    fid = open(file_path, 'rb')   # 'r'は読み込み専用、'b'はバイナリモードで読み込みを表す
+    fid = open(file_path, 'rb')
 
     # file signature
     data1_1 = struct.unpack('4s', fid.read(4))
@@ -413,6 +424,7 @@ def parse(file_path, output, show=False):
     plt.savefig(output_image_name, bbox_inches='tight')
     plt.close()
 
+
     # output simple text format
     simple_txt_files = []
     for n in range(12):
@@ -427,6 +439,11 @@ def parse(file_path, output, show=False):
             f.write("\n")
             f.write("# Labels:= ECG\t%s" % derivation_names[n][0].decode('utf-8').strip('\r\n\0'))
             f.write("\n")
+            f.write("# Age:=\t%s" % data1_6[0].decode('utf-8').strip('\r\n\0'))
+            f.write("\n")
+            f.write("# Gender:=\t%s" % data1_8[0].decode('utf-8').strip('\r\n\0'))
+            f.write("\n")
+
             for point in derivation[n]:
                 f.write("%d" %   point)
                 f.write("\n")
@@ -448,4 +465,49 @@ def parse(file_path, output, show=False):
         status.append(data1_102[0] & 0b0000001000000000)
         electrodes.append(status)
 
+
+
+
+    # Age Distribution
+    #
+    # a = int(data1_6[0].decode('utf-8').strip('\r\n\0'))
+    #
+    # global g0, g1, g2, g3, g4, g5, g6, g7, g8, g9
+    #
+    # if 0 <= a < 10:
+    #     g0 += 1
+    # elif 10 <= a <20:
+    #     g1 += 1
+    # elif 20 <= a <30:
+    #     g2 += 1
+    # elif 30 <= a < 40:
+    #     g3 += 1
+    # elif 40 <= a < 50:
+    #     g4 += 1
+    # elif 50 <= a < 60:
+    #     g5 += 1
+    # elif 60 <= a < 70:
+    #     g6 += 1
+    # elif 70 <= a < 80:
+    #     g7 += 1
+    # elif 80 <= a < 90:
+    #     g8 += 1
+    # elif a >= 90:
+    #     g9 += 1
+    #
+    # print(g0, g1, g2, g3, g4, g5, g6, g7, g8, g9)
+    #
+    # plt.xlabel('Age Group')
+    # plt.ylabel('Sample Number')
+    # plt.title('Age Distribution')
+    # objects = ('0-9','10-19','20-29','30-39','40-49','50-59','60-69','70-79','80-89','Above 90')
+    # y_pos = np.arange(10)
+    #
+    # plt.bar(y_pos, [g0, g1, g2, g3, g4, g5, g6, g7, g8, g9], align='center')
+    # plt.xticks(y_pos, objects)
+    # plt.savefig('distribution.png', bbox_inches='tight')
+    # plt.close()
+
     return output_image_name, simple_txt_files
+
+
